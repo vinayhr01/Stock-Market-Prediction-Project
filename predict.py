@@ -1,18 +1,23 @@
 import pandas as pd
 
-# Load the CSV file into a DataFrame
-data = pd.read_csv('stock_data.csv')
+def predict():
+    # Load the CSV file into a DataFrame
+    data = pd.read_csv('stock_data.csv')
 
-# Calculate a score for each stock based on some criteria (e.g., price change percentage, volume)
-data['Score'] = ((data['Close'] - data['Open']) / data['Open']) * data['Volume']
+    data['Close'] = pd.to_numeric(data['Close'], errors='coerce')
+    data['Open'] = pd.to_numeric(data['Open'], errors='coerce')
+    data['Volume'] = pd.to_numeric(data['Volume'], errors='coerce')
 
-# Group data by stock and calculate the total score for each stock
-grouped = data.groupby('Stock')['Score'].sum().reset_index()
+    # Calculate a score for each stock based on some criteria (e.g., price change percentage, volume)
+    data['Score'] = ((data['Close'] - data['Open']) / data['Open']) * data['Volume']
 
-# Sort stocks based on the total score in descending order
-sorted_stocks = grouped.sort_values(by='Score', ascending=False)
+    # Group data by stock and calculate the total score for each stock
+    grouped = data.groupby('Stock')['Score'].sum().reset_index()
 
-# Recommend the top stock
-recommended_stock = sorted_stocks.iloc[:]['Stock']
+    # Sort stocks based on the total score in descending order
+    sorted_stocks = grouped.sort_values(by='Score', ascending=False)
 
-print("Recommended stock:\n", recommended_stock)
+    # Recommend the top stock
+    recommended_stock = sorted_stocks.iloc[0]['Stock']
+
+    print("Recommended stock in order", recommended_stock)
