@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
 import re
+import os
 
 def download_csv():
     userSearch = input("Give the name to get stock price prediction \n")
@@ -14,8 +15,9 @@ def download_csv():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--log-level=3")  # Removes INFO logging in the terminal
+    download_directory = os.path.join(os.getcwd(), "CSV Files")
     chrome_options.add_experimental_option("prefs", {
-    "download.default_directory": "C:\\Users\\1rn19\\Desktop\\stock-market-prediction\\CSV Files",
+    "download.default_directory": download_directory,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True

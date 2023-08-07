@@ -4,7 +4,7 @@ import glob
 
 def combine_stocks():
     # Directory path containing CSV files
-    directory_path = r"C:\Users\1rn19\Desktop\stock-market-prediction\CSV Files"
+    directory_path = r".\CSV Files"
 
     # Get a list of all CSV files in the specified directory
     csv_files = glob.glob(os.path.join(directory_path, '*.csv'))
