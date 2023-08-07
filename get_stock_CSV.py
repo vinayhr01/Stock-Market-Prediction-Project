@@ -28,7 +28,24 @@ def download_csv():
     driver.get("https://finance.yahoo.com")
     search = driver.find_element(By.CSS_SELECTOR, "input#yfin-usr-qry")
     search.send_keys(userSearch)
-    time.sleep(10)
+    
+    time.sleep(2)  # Wait for suggestions to appear
+    
+    suggestions = driver.find_elements(By.CSS_SELECTOR, "ul.modules_list__L4Xjs li[role='option']")
+
+    filtered_suggestions = [suggest.text for suggest in suggestions if suggest.text.strip() and "PRIVATE" not in suggest.text and not "news" in suggest.get_attribute("data-test")]
+    
+    if filtered_suggestions:
+        print("Search Suggestions:")
+        for idx, suggestion in enumerate(filtered_suggestions, start=1):
+            print(f"{idx}. {suggestion}")
+        
+        selected_option = int(input("Select a search suggestion (1, 2, 3, ...): "))
+        if 1 <= selected_option <= len(filtered_suggestions):
+            userSearch = filtered_suggestions[selected_option - 1]
+        else:
+            print("Invalid selection. Proceeding with original search term.")
+
     search.send_keys(Keys.RETURN)
 
     time.sleep(10)
@@ -60,3 +77,5 @@ def download_csv():
     data.to_csv(".\\CSV Files\\"+filename, index=False)
 
     driver.quit()
+
+download_csv()
