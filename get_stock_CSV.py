@@ -28,13 +28,10 @@ def download_csv():
     driver.get("https://finance.yahoo.com")
     search = driver.find_element(By.CSS_SELECTOR, "input#yfin-usr-qry")
     search.send_keys(userSearch)
+    time.sleep(10)
     search.send_keys(Keys.RETURN)
 
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.url_changes(driver.current_url))
-    newUrl = driver.current_url
-
-    driver.get(newUrl)
+    time.sleep(10)
 
     hist_data = driver.find_element(By.XPATH, '//li[@data-test="HISTORICAL_DATA"]/a')
     hist_data.click()
