@@ -4,3 +4,4 @@ Lib
 site-packages
 Scripts
 share
+pyvenv.cfg
