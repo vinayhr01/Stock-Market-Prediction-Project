@@ -34,17 +34,16 @@ def download_csv():
     wait.until(EC.url_changes(driver.current_url))
     newUrl = driver.current_url
 
-    AnDriver = webdriver.Chrome(options=chrome_options)
-    AnDriver.get(newUrl)
+    driver.get(newUrl)
 
-    hist_data = AnDriver.find_element(By.XPATH, '//li[@data-test="HISTORICAL_DATA"]/a')
+    hist_data = driver.find_element(By.XPATH, '//li[@data-test="HISTORICAL_DATA"]/a')
     hist_data.click()
 
-    h1_element = AnDriver.find_element(By.XPATH, '//h1[contains(@class, "D(ib) Fz(18px)")]').text
+    h1_element = driver.find_element(By.XPATH, '//h1[contains(@class, "D(ib) Fz(18px)")]').text
 
     time.sleep(5)
 
-    download = AnDriver.find_element(By.XPATH, '//span[text()="Download"]')
+    download = driver.find_element(By.XPATH, '//span[text()="Download"]')
     download_link = download.find_element(By.XPATH, './..')
     download_link.click()
 
