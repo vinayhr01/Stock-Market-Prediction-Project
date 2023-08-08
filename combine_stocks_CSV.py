@@ -32,5 +32,3 @@ def combine_stocks():
 
     # Save the combined data to a new CSV file
     combined_data.to_csv('stock_data.csv', index=False)
-
-combine_stocks()
