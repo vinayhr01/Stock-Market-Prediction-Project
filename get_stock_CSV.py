@@ -88,8 +88,6 @@ def download_csv():
 
     extracted_text = matches.group(1)
 
-    print(extracted_text)
-
     filename = extracted_text+".csv"
 
     data = pd.read_csv(".\\CSV Files\\"+filename)
