@@ -12,20 +12,25 @@ def combine_stocks():
     # Sort the CSV files based on last modified time
     csv_files.sort(key=os.path.getmtime)
 
-    # Read the columns from the first CSV file
+    # Read the columns from the first CSV file to use as header
     with open(csv_files[0], 'r') as first_csv:
-        columns = first_csv.readline().strip().split(',')  # Keep only the first 7 columns
+        header = first_csv.readline().strip()
 
     # Create an empty list to hold DataFrames
     data_frames = []
 
-    # Loop through the sorted CSV files and append the first 7 columns to the list of DataFrames
+    # Loop through the sorted CSV files and append the data to the list of DataFrames
     for csv_file in csv_files:
-        df_data = pd.read_csv(csv_file, header=None)  # Read without header
+        df_data = pd.read_csv(csv_file, skiprows=1, header=None)  # Read with header
         data_frames.append(df_data)
 
     # Concatenate the list of DataFrames into a single DataFrame
     combined_data = pd.concat(data_frames, ignore_index=True)
 
+    # Set the header using the columns from the first CSV file
+    combined_data.columns = header.split(',')
+
     # Save the combined data to a new CSV file
-    combined_data.to_csv('stock_data.csv', index=False, header=False)
+    combined_data.to_csv('stock_data.csv', index=False)
+
+combine_stocks()
