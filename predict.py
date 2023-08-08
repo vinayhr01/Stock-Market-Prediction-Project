@@ -20,4 +20,4 @@ def predict():
     # Recommend the top stock
     recommended_stock = sorted_stocks.iloc[0]['Stock']
 
-    print("Recommended stock in order", recommended_stock)
+    print("Currently Recommended stock in order", recommended_stock)

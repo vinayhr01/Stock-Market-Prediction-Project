@@ -1,10 +1,20 @@
 import pandas as pd
 import os
 import glob
+import sys
 
 def combine_stocks():
     # Directory path containing CSV files
     directory_path = r".\CSV Files"
+
+    if not os.path.exists(directory_path):
+        # If it doesn't exist, create it
+        os.makedirs(directory_path)
+        print(f"Directory '{directory_path}' created.")
+
+    if not os.listdir(directory_path):
+        print("Directory is empty because cobined CSV File could not be created")
+        sys.exit()
 
     # Get a list of all CSV files in the specified directory
     csv_files = glob.glob(os.path.join(directory_path, '*.csv'))

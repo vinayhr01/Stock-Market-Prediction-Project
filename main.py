@@ -3,7 +3,10 @@ import get_stock_CSV as stockcsv
 import combine_stocks_CSV as combine_Stocks
 import predict
 
-stockcsv.download_csv()
+try:
+    stockcsv.controller()
+except Exception as e:
+    pass
 
 combine_Stocks.combine_stocks()
 
