@@ -49,10 +49,23 @@ def download_csv():
             company_sym.append((div_text_2, div_text_1))
 
     company_sym = [i for i in company_sym if i != ('', '')]
-    res = [(t[0], t[1], c) for t, c in zip(company_sym, equi + ['']*(len(company_sym)-len(equi)))]
+    filtered_suggestions = [(t[0], t[1], c) for t, c in zip(company_sym, equi + ['']*(len(company_sym)-len(equi)))]
 
-    print(res)
+    if filtered_suggestions:
+        print("Search Suggestions:")
+        for idx, suggestion in enumerate(filtered_suggestions, start=1):
+            print(f"{idx}. {suggestion[0]} --- {suggestion[1]} --- {suggestion[2]}")
 
+        selected_option = int(input("Select a search suggestion (1, 2, 3, ...): "))
+        if 1 <= selected_option <= len(filtered_suggestions):
+            userSearch = filtered_suggestions[selected_option - 1][0]
+        else:
+            print("Invalid selection. Proceeding with original search term.")
+
+    search.clear()
+    time.sleep(3)
+    search.send_keys(userSearch)
+    time.sleep(5)
     search.send_keys(Keys.RETURN)
 
     time.sleep(10)
