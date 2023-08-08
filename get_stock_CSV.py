@@ -31,20 +31,27 @@ def download_csv():
     
     time.sleep(2)  # Wait for suggestions to appear
     
-    suggestions = driver.find_elements(By.CSS_SELECTOR, "ul.modules_list__L4Xjs li[role='option']")
+    li_elements = driver.find_elements(By.XPATH, "//li[@role='option']")
 
-    filtered_suggestions = [suggest.text for suggest in suggestions if suggest.text.strip() and "PRIVATE" not in suggest.text and not "news" in suggest.get_attribute("data-test")]
+# Assuming the two <div> elements are the first and second child elements within each <li> element
+    company_sym = []
+    span_elements = driver.find_elements(By.CSS_SELECTOR, "span.modules_quoteSpan__FveMi")
+
+# Extract text from span elements and store them in a list
+    equi = [span_element.text for span_element in span_elements]
     
-    if filtered_suggestions:
-        print("Search Suggestions:")
-        for idx, suggestion in enumerate(filtered_suggestions, start=1):
-            print(f"{idx}. {suggestion}")
-        
-        selected_option = int(input("Select a search suggestion (1, 2, 3, ...): "))
-        if 1 <= selected_option <= len(filtered_suggestions):
-            userSearch = filtered_suggestions[selected_option - 1]
-        else:
-            print("Invalid selection. Proceeding with original search term.")
+    for li_element in li_elements:
+        div_elements = li_element.find_elements(By.TAG_NAME, 'div')
+        if len(div_elements) >= 2:
+            div_text_2 = div_elements[1].text
+            div_text_1 = div_elements[0].text
+            div_text_1 = div_text_1.replace(div_text_2, '')
+            company_sym.append((div_text_2, div_text_1))
+
+    company_sym = [i for i in company_sym if i != ('', '')]
+    res = [(t[0], t[1], c) for t, c in zip(company_sym, equi + ['']*(len(company_sym)-len(equi)))]
+
+    print(res)
 
     search.send_keys(Keys.RETURN)
 
