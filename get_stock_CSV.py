@@ -97,5 +97,3 @@ def download_csv():
     data.to_csv(".\\CSV Files\\"+filename, index=False)
 
     driver.quit()
-
-download_csv()
