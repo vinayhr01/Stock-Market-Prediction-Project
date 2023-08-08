@@ -83,10 +83,12 @@ def download_csv():
 
     time.sleep(15)
 
-    pattern = r'\((.*?)\)'  # Matches text within parentheses
+    pattern = r'\(([^)]+)\)$'  # Matches text within parentheses
     matches = re.search(pattern, h1_element)
 
     extracted_text = matches.group(1)
+
+    print(extracted_text)
 
     filename = extracted_text+".csv"
 
