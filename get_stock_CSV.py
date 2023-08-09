@@ -72,13 +72,23 @@ def download_csv(driver):
 
     h1_element = driver.find_element(By.XPATH, '//h1[contains(@class, "D(ib) Fz(18px)")]').text
 
+    time.sleep(3)
+
+    ele = driver.find_element(By.CLASS_NAME, "dateRangeBtn")
+    ele.click()
+
+    time.sleep(3)
+
+    but_ele = driver.find_element(By.XPATH, '//button[@data-value="5_Y"]')
+    but_ele.click()
+
     time.sleep(5)
 
     download = driver.find_element(By.XPATH, '//span[text()="Download"]')
     download_link = download.find_element(By.XPATH, './..')
     download_link.click()
 
-    time.sleep(15)
+    time.sleep(10)
 
     pattern = r'\(([^)]+)\)$'  # Matches text within parentheses
     matches = re.search(pattern, h1_element)
@@ -132,3 +142,5 @@ def controller():
             break
 
     driver.quit()
+
+controller()
