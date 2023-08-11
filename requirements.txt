@@ -1,2 +1,5 @@
 selenium
 pandas
+numpy
+matplotlib
+tensorflow
