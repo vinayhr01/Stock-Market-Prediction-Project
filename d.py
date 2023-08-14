@@ -5,8 +5,9 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout
+from keras.optimizers import Adam
 from keras.models import load_model
-from sklearn.linear_model import LinearRegression
+import tensorflow as tf
 
 def rmse(predictions, y_test):
     rmse = np.sqrt(np.mean(((predictions - y_test) ** 2)))
@@ -14,20 +15,20 @@ def rmse(predictions, y_test):
 
 def LSTM_mod(x_train, y_train, x_test):
     model = Sequential()
-    model.add(LSTM(256, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+    model.add(LSTM(128, return_sequences=True, input_shape= (x_train.shape[1], 1)))
+    model.add(LSTM(128, return_sequences=True))
     model.add(LSTM(128, return_sequences=False))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(1, activation='linear'))  # Linear activation for regression tasks
-
+    model.add(Dense(80))
+    model.add(Dense(40))
+    model.add(Dense(20))
+    model.add(Dense(1))
     # Compile the model
     model.compile(optimizer='adam', loss='mean_squared_error')
-
     # Train the model
-    model.fit(x_train, y_train, batch_size=32, epochs=50, validation_split=0.2)  # Add validation data
-    predictions = model.predict(x_test)
-    predictions = scaler.inverse_transform(predictions)
-    return predictions
+    model.fit(x_train, y_train, batch_size=1, epochs=5)
+    predictions_scaled = model.predict(x_test)
+    predictions = scaler.inverse_transform(predictions_scaled)
+    return predictions, model
 
 def LSTM_model(x_test):
     predictions = model1.predict(x_test)
@@ -81,6 +82,9 @@ def training(training_data_len, train_data):
 
     return x_train, y_train, x_test, y_test
 
+def save_model(model):
+    model.save('my_model.h5')
+
 model1 = load_model('model_rmse_3.010_amazon.h5')
 
 # Read data from CSV file
@@ -106,7 +110,7 @@ x_train, y_train, x_test, y_test = training(training_data_len, train_data)
 
 LSTM_predictions = LSTM_model(x_test)
 
-LSTM_preds = LSTM_mod(x_train, y_train, x_test)
+LSTM_preds, model = LSTM_mod(x_train, y_train, x_test)
 
 plot_model(LSTM_predictions, training_data_len)
 
@@ -130,5 +134,11 @@ print("\n\n\nPrice predictions and actual comparison from the model built\n\n")
 for i in range(len(m)):
     print(m[i][0][0], m[i][1][0], sep = ' ')
 
-print("\n\nPrint Root mean squared error from model loaded", rmse(LSTM_predictions, y_test))
-print("\n\nPrint Root mean squared error from model built", rmse(LSTM_preds, y_test))
+build_mod_rmse = rmse(LSTM_preds, y_test)
+save_model_rmse = rmse(LSTM_predictions, y_test)
+
+if build_mod_rmse < save_model_rmse:
+    save_model(model)
+
+print("\n\nPrint Root mean squared error from model loaded", save_model_rmse)
+print("\n\nPrint Root mean squared error from model built", build_mod_rmse)
