@@ -7,6 +7,8 @@ import time
 import re
 import os
 import sys
+import requests
+from bs4 import BeautifulSoup
 
 def get_search_suggestions(driver, userSearch):
     search = driver.find_element(By.CSS_SELECTOR, "input#yfin-usr-qry")
@@ -84,6 +86,19 @@ def download_csv(driver):
 
     time.sleep(5)
 
+    curr = driver.find_element(By.XPATH, '//span[@class="Fz(xs)"]/span').text
+
+    curr = curr.split()[-1]
+
+    url = 'https://www.x-rates.com/calculator/?from='+curr+'&to=INR'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    exchange_rate_element = soup.find('span', class_='ccOutputTrail').previous_sibling
+    exchange_rate = float(exchange_rate_element.text.strip())
+
+    time.sleep(3)
+
     download = driver.find_element(By.XPATH, '//span[text()="Download"]')
     download_link = download.find_element(By.XPATH, './..')
     download_link.click()
@@ -100,6 +115,16 @@ def download_csv(driver):
     data = pd.read_csv(".\\CSV Files\\"+filename)
 
     data['Stock'] = h1_element
+
+    data['Open'] = data['Open'] * exchange_rate
+
+    data['High'] = data['High'] * exchange_rate
+
+    data['Low'] = data['Low'] * exchange_rate
+
+    data['Close'] = data['Close'] * exchange_rate
+
+    data['Adj Close'] = data['Adj Close'] * exchange_rate
 
     data.to_csv(".\\CSV Files\\"+filename, index=False)
 
