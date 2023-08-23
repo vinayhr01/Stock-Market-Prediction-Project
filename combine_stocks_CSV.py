@@ -5,7 +5,7 @@ import sys
 
 def combine_stocks():
     # Directory path containing CSV files
-    directory_path = r".\CSV Files"
+    directory_path = r"./CSV Files"
 
     if not os.path.exists(directory_path):
         # If it doesn't exist, create it

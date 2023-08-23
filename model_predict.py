@@ -89,7 +89,7 @@ def model_predict():
     model1 = load_model('model_rmse_3.010_amazon.h5')
 
     # Read data from CSV file
-    df = pd.read_csv('.\\CSV Files\\AMD.csv')
+    df = pd.read_csv(r'./CSV Files/AMD.csv')
 
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index('Date', inplace=True)
@@ -141,5 +141,8 @@ def model_predict():
     '''if build_mod_rmse < save_model_rmse:
         save_model(model)'''
 
+    print("\n\nConsidered Stock was", df['Stock'][0])
     print("\n\nPrint Root mean squared error from model loaded", save_model_rmse)
     print("\n\nPrint Root mean squared error from model built", build_mod_rmse)
+
+model_predict()
