@@ -7,7 +7,7 @@ import cumulative_returns
 
 try:
     stockcsv.controller()
-except Exception as e:
+except SystemExit:
     pass
 
 combine_Stocks.combine_stocks()

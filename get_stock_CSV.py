@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 import os
@@ -49,7 +50,7 @@ def get_search_suggestions(driver, userSearch):
                 userSearch = filtered_suggestions[selected_option - 1][0]
             elif selected_option == len(filtered_suggestions) + 1:
                 userSearch = input("Enter a new search term:\n")
-                get_search_suggestions(driver, userSearch)
+                usrSrch = get_search_suggestions(driver, userSearch)
                 return
             elif selected_option == len(filtered_suggestions) + 2:
                 print("Exiting ...")
@@ -63,6 +64,12 @@ def get_search_suggestions(driver, userSearch):
     search.clear()
     search.send_keys(userSearch)
     time.sleep(3)
+    try:
+        no_search = driver.find_element(By.CLASS_NAME, 'modules_errorMessage__8kAI2')
+        if no_search:
+            sys.exit()
+    except NoSuchElementException:
+        pass
     search.send_keys(Keys.RETURN)
     return usrSrch
 
@@ -167,5 +174,3 @@ def controller():
             break
 
     driver.quit()
-
-controller()
