@@ -7,6 +7,9 @@ To run this project
 ```bash 
 git clone https://github.com/vinayhr01/Stock-Market-Prediction-Project
 ```
+```bash
+cd Stock-Market-Prediction-Project
+```
 3. Create a virtual environment using below command and open terminal in this directory and activate it with corresponding command based on your OS in current working directory.
 ```bash 
 python -m venv . 
