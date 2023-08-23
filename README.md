@@ -2,6 +2,8 @@
 
 To run this project
 
-1. First of all install python on your machine
-2. Then run this command ```pip install -r requirements.txt```
-3. Then run ```python main.py``` to run the project
+1. First of all install python and ensure pip is also installed on your machine.
+2. Clone this repository using ```git clone https://github.com/vinayhr01/Stock-Market-Prediction-Project```.
+3. Activate a virtual environment using ```python -m venv . ``` after going to this directory and opening terminal there.
+4. Then run this command ```pip install -r requirements.txt```.
+5. Then run ```python main.py``` to run the project.
