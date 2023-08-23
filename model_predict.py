@@ -144,5 +144,3 @@ def model_predict():
     print("\n\nConsidered Stock was", df['Stock'][0])
     print("\n\nPrint Root mean squared error from model loaded", save_model_rmse)
     print("\n\nPrint Root mean squared error from model built", build_mod_rmse)
-
-model_predict()
