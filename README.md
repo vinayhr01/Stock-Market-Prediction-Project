@@ -11,13 +11,12 @@ git clone https://github.com/vinayhr01/Stock-Market-Prediction-Project
 ```bash 
 python -m venv . 
 ``` 
-after going to this directory and opening terminal there and activate it with corresponding command in current working directory.
+Change to this directory, open terminal and activate it with corresponding command based on your OS in current working directory.
 4. Then run this command 
 ```bash 
 pip install -r requirements.txt
 ```
-5. Then run 
+5. Then run below command to run the project.
 ```bash 
 python main.py
-``` 
-to run the project.
+```
